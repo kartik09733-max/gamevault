@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { submitPayment } from "../../services/paymentService";
 import { X, LoaderCircle, AlertTriangle } from "lucide-react";
 import { usePayment } from "../../context/PaymentContext";
 import { usePlayer } from "../../context/PlayerContext";
@@ -14,16 +15,53 @@ function PaymentModal() {
   const { player } = usePlayer();
 
   const [status, setStatus] = useState("payment");
+  const [selectedPackage, setSelectedPackage] = useState("");
+  const [utr, setUtr] = useState("");
+  const [screenshot, setScreenshot] = useState(null);
+
+useEffect(() => {
+  if (selectedProduct) {
+    setSelectedPackage(
+      `${selectedProduct.title} - ₹${selectedProduct.price}`
+    );
+  }
+}, [selectedProduct]);
 
   if (!paymentOpen || !selectedProduct) return null;
 
-  const handlePaymentComplete = () => {
+  const handlePaymentComplete = async () => {
+  // User must provide either UTR or Screenshot
+  if (!utr.trim() && !screenshot) {
+    alert(
+      "Please provide either a UTR number or a payment screenshot."
+    );
+    return;
+  }
+
+  try {
     setStatus("checking");
 
+    await submitPayment({
+      selectedPackage,
+      utr,
+      screenshot,
+    });
+
+    // Keep your existing flow
     setTimeout(() => {
       setStatus("failed");
     }, 2500);
-  };
+
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      "Failed to submit payment. Please try again."
+    );
+
+    setStatus("payment");
+  }
+};
 
   const handleTryAgain = () => {
     setStatus("payment");
@@ -164,6 +202,85 @@ function PaymentModal() {
               </div>
 
             </div>
+
+            {/* Package Selection */}
+
+<div className="mt-5 px-6">
+
+  <div className="rounded-3xl border border-white/10 bg-[#171C25] p-5">
+
+    <label className="mb-3 block font-bold text-white">
+      Choose Package
+    </label>
+
+    <select
+      value={selectedPackage}
+      onChange={(e) => setSelectedPackage(e.target.value)}
+      className="w-full rounded-2xl border border-white/10 bg-[#10151D] p-4 text-white outline-none"
+    >
+      <option>
+        {selectedProduct.title} - ₹{selectedProduct.price}
+      </option>
+    </select>
+
+  </div>
+
+</div>
+
+{/* UTR */}
+
+<div className="mt-5 px-6">
+
+  <div className="rounded-3xl border border-white/10 bg-[#171C25] p-5">
+
+    <label className="mb-3 block font-bold text-white">
+      Enter UTR Number
+    </label>
+
+    <input
+      type="text"
+      value={utr}
+      onChange={(e) => setUtr(e.target.value)}
+      placeholder="Enter your UTR number"
+      className="w-full rounded-2xl border border-white/10 bg-[#10151D] p-4 text-white placeholder:text-gray-500 outline-none"
+    />
+
+  </div>
+
+</div>
+
+{/* Screenshot */}
+
+<div className="mt-5 px-6">
+
+  <div className="rounded-3xl border border-white/10 bg-[#171C25] p-5">
+
+    <label className="mb-3 block font-bold text-white">
+      Upload Payment Screenshot
+      <span className="ml-2 text-sm font-normal text-gray-400">
+        (Optional)
+      </span>
+    </label>
+
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => setScreenshot(e.target.files[0])}
+      className="block w-full text-sm text-gray-300
+      file:mr-4
+      file:rounded-xl
+      file:border-0
+      file:bg-orange-500
+      file:px-4
+      file:py-2
+      file:font-semibold
+      file:text-white
+      hover:file:bg-orange-600"
+    />
+
+  </div>
+
+</div>
 
             {/* Buttons */}
 

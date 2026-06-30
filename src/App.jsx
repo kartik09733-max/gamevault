@@ -4,6 +4,7 @@ import UIDVerification from "./components/common/UIDVerification";
 import ProductGrid from "./components/products/ProductGrid";
 import FAQ from "./components/faq/FAQ";
 import Footer from "./components/layout/Footer";
+import RecentPurchase from "./components/common/RecentPurchase";
 import PaymentModal from "./components/payment/PaymentModal";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <ProductGrid />
       <FAQ />
       <Footer />
+      <RecentPurchase />
       <PaymentModal />
     </div>
   );
