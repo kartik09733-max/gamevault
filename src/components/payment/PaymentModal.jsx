@@ -83,7 +83,23 @@ useEffect(() => {
 
       {/* Bottom Sheet */}
 
-      <div className="fixed bottom-0 left-0 right-0 z-[100] animate-[slideUp_.35s_ease] rounded-t-[34px] border-t border-white/10 bg-[#10151D] shadow-2xl">
+      <div
+  className="
+    fixed
+    bottom-0
+    left-0
+    right-0
+    z-[100]
+    max-h-[92vh]
+    overflow-y-auto
+    animate-[slideUp_.35s_ease]
+    rounded-t-[34px]
+    border-t
+    border-white/10
+    bg-[#10151D]
+    shadow-2xl
+  "
+>
 
         <div className="flex justify-center pt-3">
           <div className="h-1.5 w-14 rounded-full bg-gray-600" />
@@ -143,7 +159,7 @@ useEffect(() => {
 
             {/* Player */}
 
-            <div className="mt-5 px-6">
+            <div className="mt-4 px-5">
 
               <div className="rounded-3xl border border-white/10 bg-[#171C25] p-5">
 
@@ -192,7 +208,7 @@ useEffect(() => {
                 <img
                   src={qrImage}
                   alt="QR"
-                  className="mx-auto h-56 rounded-2xl"
+                  className="mx-auto w-full max-w-[250px] rounded-2xl"
                 />
 
                 <p className="mt-4 text-sm text-gray-400">
@@ -284,7 +300,7 @@ useEffect(() => {
 
             {/* Buttons */}
 
-            <div className="mt-6 space-y-3 px-6 pb-8">
+            <div className="sticky bottom-0 mt-6 space-y-3 border-t border-white/10 bg-[#10151D] px-6 pb-6 pt-5">
 
               <a
                 href={qrImage}

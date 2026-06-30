@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Sparkles, Zap } from "lucide-react";
+import { Zap } from "lucide-react";
 
 import { usePlayer } from "../../context/PlayerContext";
 
@@ -10,13 +10,13 @@ import PrimaryButton from "../../ui/PrimaryButton";
 const cardVariants = {
   hidden: {
     opacity: 0,
-    y: 40,
+    y: 25,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.4,
     },
   },
 };
@@ -37,87 +37,82 @@ function ProductCard({ product, onBuy }) {
       whileInView="visible"
       viewport={{ once: true }}
       whileHover={{
-        y: -8,
+        y: -4,
       }}
       transition={{
-        duration: 0.25,
+        duration: 0.2,
       }}
     >
-      <GlassCard className="group relative overflow-hidden bg-[#141922]">
+      <GlassCard className="group relative overflow-hidden rounded-3xl bg-[#141922]">
 
         {/* Glow */}
 
         <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
 
-          <div className="pointer-events-none absolute left-1/2 top-10 h-56 w-56 -translate-x-1/2 rounded-full bg-orange-500/20 blur-[100px]" />
+          <div className="absolute left-1/2 top-4 h-36 w-36 -translate-x-1/2 rounded-full bg-orange-500/20 blur-[80px]" />
 
         </div>
 
-        {/* Badge */}
+        {/* Top Badges */}
 
         {product.badge && (
 
           <motion.div
             animate={{
-              scale: [1, 1.08, 1],
+              scale: [1, 1.05, 1],
             }}
             transition={{
-              duration: 1.8,
+              duration: 2,
               repeat: Infinity,
             }}
-            className="pointer-events-none absolute left-4 top-4 z-20"
+            className="absolute left-3 top-3 z-20"
           >
 
-            <Badge pulse>
-
+            <Badge
+              pulse
+              className="px-2 py-1 text-[10px]"
+            >
               🔥 {product.badge}
-
             </Badge>
 
           </motion.div>
 
         )}
 
-        {/* Discount */}
+        <div className="absolute right-3 top-3 z-20">
 
-        <div className="pointer-events-none absolute right-4 top-4 z-20">
-
-          <Badge color="green">
-
+          <Badge
+            color="green"
+            className="px-2 py-1 text-[10px]"
+          >
             {discount}% OFF
-
           </Badge>
 
         </div>
 
         {/* Product Image */}
 
-        <div className="relative flex justify-center pt-14">
+        <div className="relative flex justify-center pt-6">
 
           <motion.img
             src={product.image}
             alt={product.title}
             whileHover={{
-              scale: 1.08,
-              rotate: -2,
+              scale: 1.06,
             }}
             transition={{
-              duration: 0.3,
+              duration: 0.25,
             }}
-            className="relative z-10 h-[185px] object-contain"
+            className="relative z-10 h-24 object-contain md:h-36"
           />
 
         </div>
 
-        {/* Divider */}
-
-        <div className="mx-6 mt-6 border-t border-white/10" />
-
         {/* Content */}
 
-        <div className="relative z-10 px-6 pb-6 pt-6">
+        <div className="relative z-10 px-4 pb-4 pt-3">
 
-          <h3 className="text-center text-2xl font-black text-white">
+          <h3 className="line-clamp-2 text-center text-[15px] font-black leading-5 text-white md:text-xl">
 
             {product.title}
 
@@ -125,15 +120,15 @@ function ProductCard({ product, onBuy }) {
 
           {/* Price */}
 
-          <div className="mt-6 text-center">
+          <div className="mt-3 text-center">
 
-            <h2 className="text-5xl font-black text-orange-400">
+            <h2 className="text-2xl font-black text-orange-400 md:text-4xl">
 
               ₹{product.price}
 
             </h2>
 
-            <p className="mt-2 text-gray-500 line-through">
+            <p className="mt-1 text-[11px] text-gray-500 line-through">
 
               ₹{product.oldPrice}
 
@@ -143,13 +138,16 @@ function ProductCard({ product, onBuy }) {
 
           {/* Delivery */}
 
-          <div className="mt-6 flex justify-center">
+          <div className="mt-3 flex justify-center">
 
-            <Badge color="green">
+            <Badge
+              color="green"
+              className="px-2.5 py-1 text-[10px]"
+            >
 
               <Zap
-                size={15}
-                className="mr-2"
+                size={12}
+                className="mr-1"
               />
 
               Instant Delivery
@@ -158,39 +156,9 @@ function ProductCard({ product, onBuy }) {
 
           </div>
 
-          {/* Status */}
-
-          <div className="mt-5 flex items-center justify-center gap-2">
-
-            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-
-            <span className="text-sm text-gray-400">
-
-              Ready for Instant Delivery
-
-            </span>
-
-          </div>
-
-          {/* Premium */}
-
-          <div className="mt-4 flex items-center justify-center gap-2">
-
-            <Sparkles
-              size={16}
-              className="text-yellow-400"
-            />
-
-            <span className="text-sm font-medium text-gray-300">
-
-              Official Top-Up Partner
-
-            </span>
-
-          </div>
                     {/* Buy Button */}
 
-          <div className="relative z-20 mt-7">
+          <div className="relative z-20 mt-4">
 
             <PrimaryButton
               type="button"
@@ -200,27 +168,24 @@ function ProductCard({ product, onBuy }) {
                 }
               }}
               disabled={!player}
+              className="h-10 rounded-xl text-sm font-bold"
             >
-
               {player ? (
-                <span className="flex items-center justify-center gap-2">
-
+                <span className="flex items-center justify-center gap-1">
                   🛒 BUY NOW
-
                 </span>
               ) : (
-                "VERIFY UID FIRST"
+                "VERIFY UID"
               )}
-
             </PrimaryButton>
 
           </div>
 
         </div>
 
-        {/* Bottom Glow */}
+        {/* Bottom Accent */}
 
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 opacity-0 transition duration-300 group-hover:opacity-100" />
 
       </GlassCard>
 
